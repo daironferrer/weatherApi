@@ -30,9 +30,9 @@ function getWeather(city) {
         weatherIcons = response.weather[0].icon;
 
         iconURL = 'https://openweathermap.org/img/wn/' + weatherIcons + '@2x.png';
-        lat = reponse.coord.lat;
+        lat = response.coord.lat;
         lon = response.coord.lon;
-        uvUrl = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + lat + '&lon=' + lon + apiKey;
+        uvURL = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + lat + '&lon=' + lon + apiKey;
 
         $('#daily').removeClass('hide');
         $('#city-date').text(response.name + '(' + (moment().format('1') + ')'));
@@ -69,14 +69,14 @@ function getWeather(city) {
     }).then(function(response) {
         console.log('responsefiveday:', response);
         for(let i = 0; i < response.list.length; i++) {
-            if(reponnse.list[i].dt_txt.indexOf('15:00:00') > 0) {
+            if(response.list[i].dt_txt.indexOf('15:00:00') > 0) {
                 temp = Math.round(
-                    (reponse.list[i].main.temp - 273.15) * 1.8 + 32
+                    (response.list[i].main.temp - 273.15) * 1.8 + 32
                 );
                 fiveDayIcon = response.list[i].weather[0].icon;
                 fiveDayIconURL = 'https://openweathermap.org/img/wn/' + fiveDayIcon + '@2px.png';
                 
-                var dateFormat = moment(reponse.list[i].dt_txt).format('1');
+                var dateFormat = moment(response.list[i].dt_txt).format('1');
                 var cardWeather = 
                 `<div class = "text-white bg-primary card col-md-2 daily" style="width: 18rem">
                  <div class = "card-body">
