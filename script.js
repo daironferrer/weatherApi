@@ -10,6 +10,7 @@ var iconURL;
 var uvUrl;
 var fiveDayIcon;
 var cityInput;
+var apiKey = '&appid=2171b0c04591b249499c69acc417a3d3';
 
 var localstorage = JSON.parse(localStorage.getItem('historyview'));
 if(localstorage) {
@@ -18,13 +19,12 @@ if(localstorage) {
 }
 
 function getWeather(city) {
-    var queryURL = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=b97ee0cac4338c931232f0be31f4886';
+    var queryURL = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + apiKey;
 
-    var apiKey = 'b97ee0cac4338c931232f0be31f48866';
 
     $.ajax({
         url: queryURL,
-        method: 'GET'
+        method: 'GET',
     }).then(function(response) {
         temp = Math.round((response.main.temp - 273.15) * 1.8 + 32);
         weatherIcons = response.weather[0].icon;
@@ -32,7 +32,7 @@ function getWeather(city) {
         iconURL = 'https://openweathermap.org/img/wn/' + weatherIcons + '@2x.png';
         lat = reponse.coord.lat;
         lon = response.coord.lon;
-        uvUrl = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + lat + '&lon=' + lon + '&appid=b97ee0cac4338c931232f0be31f4886';
+        uvUrl = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + lat + '&lon=' + lon + apiKey;
 
         $('#daily').removeClass('hide');
         $('#city-date').text(response.name + '(' + (moment().format('1') + ')'));
@@ -42,7 +42,7 @@ function getWeather(city) {
         $('#wind-p').text('Wind Speed: ' + response.wind.speed + 'MPH');
 
         $.ajax({
-            url: uvUrl,
+            url: uvURL,
             method: 'GET',
         }).then(function(response) {
             uvValue = response.value;
@@ -61,7 +61,7 @@ function getWeather(city) {
     });
 
     var fiveDay = city;
-    var fiveDayURL = 'https://api.openweathermap.org/data/2.5/forecast?q=' + fiveDay + '&appid=b97ee0cac4338c931232f0be31f4886';
+    var fiveDayURL = 'https://api.openweathermap.org/data/2.5/forecast?q=' + fiveDay + apiKey;
 
     $.ajax({
         url: fiveDayURL,
@@ -115,7 +115,6 @@ function getWeather(city) {
 
 $('#search-btn').click(function() {
     $('#five-day-card').empty();
-    event.preventDefault();
     cityInput = $('#input').val();
     getWeather(cityInput);
 });
